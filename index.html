@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hassan Mustafa | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CSS التنسيق الأصلي --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .container { width: 90%; margin: auto; padding: 20px 0; }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-right { order: 1; position: relative; }
+        .menu-btn { 
+            background: rgba(255, 255, 255, 0.1); 
+            color: white; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .menu-btn:hover { background: #e67e22; transform: scale(1.1); }
+        .header-left { order: 2; display: flex; align-items: center; gap: 15px; }
+        .profile-img { 
+            border-radius: 50%; width: 45px; height: 45px; border: 2px solid #fff; 
+            object-fit: cover; cursor: pointer; transition: 0.4s;
+        }
+        .profile-img:hover { transform: rotate(10deg) scale(1.1); }
+        .logo-text { font-weight: bold; font-size: 1.2rem; letter-spacing: 1px; }
+        .dropdown-content {
+            display: none; 
+            position: absolute; 
+            background: white; 
+            min-width: 200px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+            right: 0; 
+            top: 55px;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1001;
+        }
+        .dropdown-content.show { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; text-align: right; transition: 0.2s; }
+        .dropdown-content a i { margin-left: 10px; width: 20px; color: #e67e22; }
+        .dropdown-content a:hover { background-color: #f8f9fa; color: #e67e22; padding-right: 25px; }
+        
+        .scrolling-gallery {
+            background: #fff;
+            padding: 40px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            border-bottom: 2px solid #eee;
+        }
+        .gallery-track {
+            display: inline-flex;
+            animation: scrollGallery 25s linear infinite;
+        }
+        .gallery-item {
+            width: 300px;
+            height: 200px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            object-fit: cover;
+        }
+        .gallery-item:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        @keyframes scrollGallery {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(330px * 4)); }
+        }
+
+        .image-viewer-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            animation: fadeInOverlay 0.4s ease;
+        }
+        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+        .image-viewer-overlay img {
+            max-width: 85%;
+            max-height: 70%;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.15);
+            transform: scale(0.8);
+            animation: zoomImg 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes zoomImg { to { transform: scale(1); } }
+        .hello-txt {
+            color: white;
+            font-size: 3rem;
+            margin: 15px 0;
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-weight: 100;
+            border-right: 3px solid #e67e22;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+        }
+        .animate-text {
+            animation: typing 1.5s steps(6) forwards, blink 0.7s infinite;
+        }
+        @keyframes typing { from { width: 0; } to { width: 150px; } }
+        @keyframes blink { 50% { border-color: transparent; } }
+        .back-btn {
+            margin-top: 20px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+        .back-btn:hover { background: #d35400; transform: translateY(-2px); }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000; display: flex; justify-content: center; align-items: center;
+        }
+        .modal { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; position: relative; text-align: center; }
+        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 28px; cursor: pointer; color: #999; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: #e67e22; outline: none; }
+        .pass-container { position: relative; width: 100%; }
+        .pass-container i { position: absolute; left: 15px; top: 25px; cursor: pointer; color: #777; }
+        button { cursor: pointer; transition: 0.3s; font-family: inherit; }
+        .auth-btn { background: #2c3e50; color: white; border: none; width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; }
+        .auth-btn:hover { background: #34495e; }
+
+        .about-section { background: #fff; text-align: center; padding: 60px 0; border-bottom: 4px solid #e67e22; }
+        .visitor-count { background: #e67e22; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 15px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        .collaborator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin: 20px auto;
+            max-width: 500px;
+            border-right: 6px solid #e67e22;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .collaborator-card:hover { transform: scale(1.02); }
+        .collab-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #e67e22;
+            object-fit: cover;
+        }
+        .collab-info { text-align: right; flex-grow: 1; }
+        .collab-info h3 { margin: 0; color: #2c3e50; font-size: 1.4rem; }
+        .collab-info p { margin: 5px 0; color: #777; font-size: 0.9rem; line-height: 1.4; }
+        .collab-socials { display: flex; gap: 15px; margin-top: 10px; }
+        .collab-socials a { font-size: 1.2rem; transition: 0.3s; }
+        .fa-tiktok { color: #000; }
+        .fa-whatsapp { color: #25d366; }
+        .fa-facebook { color: #1877f2; }
+        .fa-instagram { color: #e4405f; }
+        .collab-socials a:hover { transform: translateY(-3px); opacity: 0.8; }
+
+        .collab-link-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+        .collab-link-box:hover {
+            background: #e67e22;
+            color: white;
+            transform: translateX(-5px);
+        }
+        .collab-link-box i { font-size: 1.3rem; }
+
+        .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .lang-card { background: #2c3e50; color: white; padding: 25px; border-radius: 12px; text-align: right; line-height: 1.7; transition: 0.4s; }
+        .lang-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); background: #34495e; }
+        .lang-card h3 { color: #e67e22; margin-top: 0; border-bottom: 1px solid #3e4f5f; padding-bottom: 10px; }
+        .contact-section { background: #ecf0f1; padding: 50px 0; text-align: center; }
+        #msgBody { height: 120px; resize: none; }
+        .send-btn { background: #27ae60; color: white; border: none; padding: 12px 50px; border-radius: 6px; transition: 0.3s; }
+        .send-btn:hover { background: #2ecc71; transform: scale(1.05); }
+        .message-box { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 5px solid #27ae60; text-align: right; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+        footer { background: #222; color: #bbb; text-align: center; padding: 40px; margin-top: 50px; }
+        footer p { margin-top: 20px; font-size: 0.95rem; color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="imageViewer" class="image-viewer-overlay">
+        <h2 id="helloTxt" class="hello-txt">Hello!</h2>
+        <img id="fullImage" src="" alt="Full View">
+        <button class="back-btn" onclick="closeImageViewer()">رجوع</button>
+    </div>
+
+    <div id="collabOverlay" class="overlay" style="display:none;">
+        <div class="modal" style="max-width: 450px;">
+            <span class="close-btn" onclick="document.getElementById('collabOverlay').style.display='none'">&times;</span>
+            <img src="12.jpg" alt="Salah" style="width:120px; height:120px; border-radius:50%; border:4px solid #e67e22; margin-bottom:15px; object-fit:cover;">
+            <h2 style="margin:0; color:#2c3e50;">Salah Siddiq</h2>
+            <p style="color:#e67e22; font-weight:bold; margin:5px 0;">مبرمج وكاتب أكواد محترف</p>
+            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">خبير في تطوير واجهات المستخدم وبناء الهياكل البرمجية المتقدمة.</p>
+            
+            <div style="text-align:right;">
+                <a href="https://wa.me/249901154713" target="_blank" class="collab-link-box">
+                    <span>واتساب</span> <i class="fab fa-whatsapp" style="color:#25d366;"></i>
+                </a>
+                <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank" class="collab-link-box">
+                    <span>فيسبوك</span> <i class="fab fa-facebook" style="color:#1877f2;"></i>
+                </a>
+                <a href="https://www.tiktok.com/@salahsiddig5?_r=1&_t=ZS-95OCb86rUm4" target="_blank" class="collab-link-box">
+                    <span>تيك توك</span> <i class="fab fa-tiktok" style="color:#000;"></i>
+                </a>
+                <a href="https://www.instagram.com/salah_siddig_?igsh=MTB4YjVpZDg4dzQzdw==" target="_blank" class="collab-link-box">
+                    <span>انستغرام</span> <i class="fab fa-instagram" style="color:#e4405f;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginOverlay" class="overlay">
+        <div class="modal">
+            <span class="close-btn" onclick="toggleModal('loginOverlay')">&times;</span>
+            <div id="loginForm">
+                <h2 style="margin-top:0">تسجيل الدخول</h2>
+                <input type="text" id="loginUser" placeholder="الاسم الكامل">
+                <div class="pass-container">
+                    <input type="password" id="loginPass" placeholder="كلمة السر">
+                    <i class="fas fa-eye" onclick="togglePass('loginPass')"></i>
+                </div>
+                <button class="auth-btn" onclick="login()">دخول</button>
+                <p onclick="showView('forgotView')" style="color:#e67e22; cursor:pointer; text-decoration:underline">نسيت كلمة السر؟</p>
+                <p onclick="showView('registerView')" style="color:#e67e22; cursor:pointer; text-decoration:underline">إنشاء حساب جديد</p>
+            </div>
+            <div id="registerView" style="display:none;">
+                <h2 style="margin-top:0">إنشاء حساب جديد</h2>
+                <input type="text" id="regName" placeholder="الاسم الكامل">
+                <input type="text" id="regPhone" placeholder="رقم الهاتف">
+                <div class="pass-container">
+                    <input type="password" id="regPass" placeholder="كلمة السر">
+                    <i class="fas fa-eye" onclick="togglePass('regPass')"></i>
+                </div>
+                <button class="auth-btn" onclick="register()">حفظ البيانات</button>
+                <p onclick="showView('loginForm')" style="color:#e67e22; cursor:pointer; text-decoration:underline">لديك حساب؟ سجل دخول</p>
+            </div>
+            <div id="forgotView" style="display:none;">
+                <h2 style="margin-top:0">استعادة الحساب</h2>
+                <input type="text" id="forgotPhone" placeholder="رقم الهاتف">
+                <button class="auth-btn" onclick="resetPass()">طلب رمز التحقق</button>
+                <p onclick="showView('loginForm')" style="color:#e67e22; cursor:pointer; text-decoration:underline">رجوع</p>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-right">
+            <button class="menu-btn" onclick="toggleDropdown(event)"><i class="fas fa-bars"></i></button>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="https://wa.me/249118944652"><i class="fab fa-whatsapp"></i> واتساب</a>
+                <a href="https://www.facebook.com/share/1DMp1FUkjB/"><i class="fab fa-facebook"></i> فيسبوك</a>
+                <a href="https://www.tiktok.com/@123hassan548"><i class="fab fa-tiktok"></i> تيك توك</a>
+                <a href="https://www.instagram.com/mustafeh026?igsh=dG9udDFhZ2FmbnY4"><i class="fab fa-instagram"></i> انستغرام</a>
+                <a href="https://youtube.com/@hassonnetlifyapp?si=du-H-7bWff2B4yYTw"><i class="fab fa-youtube"></i> يوتيوب</a>
+                <hr style="border:0; border-top:1px solid #eee; margin:5px 0;">
+                <a href="#" onclick="alert('قريباً')"><i class="fas fa-user-friends"></i> تبديل الحسابات</a>
+                <div id="userStatusInMenu"></div>
+            </div>
+        </div>
+        <div class="header-left">
+            <span class="logo-text">HASSAN MUSTAFA</span>
+            <img src="1.png" alt="Hassan" class="profile-img" onclick="openImageViewer(this.src)">
+        </div>
+    </header>
+
+    <section class="about-section reveal">
+        <div class="container">
+            <div class="visitor-count" id="visitorMsg">جاري حساب الزوار...</div>
+            <h2 style="font-size: 2.5rem; margin: 10px 0;">About Me</h2>
+            <p dir="ltr" style="max-width: 800px; margin: auto; font-size: 1.1rem; color: #555;">
+               I am Hassan Mustafa, a student at the Red Sea University and a professional web designer. 
+               I aspire to be a global programmer managing international websites.
+            </p>
+        </div>
+    </section>
+
+    <section class="container reveal">
+        <div class="collaborator-card" onclick="document.getElementById('collabOverlay').style.display='flex'">
+            <img src="12.jpg" alt="Salah" class="collab-img">
+            <div class="collab-info">
+                <h3> Salah Siddiq</h3>
+                <p>Assistant programmer and web designer<br>مبرمج ومصمم مواقع </p>
+                <div class="collab-socials">
+                    <a href="https://www.tiktok.com/@salahsiddig5?_r=1&_t=ZS-95OCb86rUm4" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/249901154713" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/salah_siddig_?igsh=MTB4YjVpZDg4dzQzdw==" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="scrolling-gallery reveal">
+        <h3 style="text-align: center; margin-bottom: 20px;">معرض أعمالي</h3>
+        <div class="gallery-track">
+            <img src="6.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="7.jpg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="8.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="9.jpg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="2.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="3.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="https://via.placeholder.com/600x400?text=Project+3" class="gallery-item" onclick="openImageViewer(this.src)">
+            <img src="https://via.placeholder.com/600x400?text=Project+4" class="gallery-item" onclick="openImageViewer(this.src)">
+        </div>
+    </div>
+
+    <section class="container reveal">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">لغات البرمجة وشرح مهامها</h2>
+        <div class="lang-grid">
+            <div class="lang-card">
+                <h3>HTML & CSS</h3>
+                <p>It is the standard language used to create the structure of web pages. It acts like the skeleton of a website, defining elements such as headings, paragraphs, and links.</p>
+            </div>
+            <div class="lang-card">
+                <h3>JavaScript (JS)</h3>
+                <p>It is a scripting language used to add interactivity to web pages. It allows you to create dynamic content like image sliders, pop-up windows, and real-time updates without refreshing the page.</p>
+            </div>
+            <div class="lang-card">
+                <h3>Python</h3>
+                <p>It is a high-level, easy-to-read programming language known for its simplicity. It is widely used in web development (backend), data science, artificial intelligence, and automation.</p>
+            </div>
+            <div class="lang-card">
+                <h3>C++</h3>
+                <p>It is a powerful, high-performance language that provides great control over system resources. It is commonly used for developing operating systems, game engines, and high-performance applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section reveal">
+        <div class="container">
+            <h2>تواصل معي - أرسل رسالة</h2>
+            <div style="max-width: 600px; margin: auto;">
+                <input type="text" id="msgName" placeholder="اكتب اسمك">
+                <textarea id="msgBody" placeholder="اكتب رسالتك هنا..."></textarea>
+                <button class="send-btn" onclick="sendMessage()">إرسال الآن</button>
+            </div>
+            <div id="messagesDisplay"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>تم الانشاء بواسطه المبرمج حسن مصطفى في يوم 9/5/2026</p>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.onload = reveal;
+
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('overlay')) {
+                event.target.style.display = 'none';
+            }
+            if (!event.target.matches('.menu-btn') && !event.target.matches('.fa-bars')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+
+        function openImageViewer(src) {
+            document.getElementById('fullImage').src = src;
+            document.getElementById('imageViewer').style.display = 'flex';
+            const hello = document.getElementById('helloTxt');
+            hello.classList.remove('animate-text');
+            void hello.offsetWidth; 
+            hello.classList.add('animate-text');
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewer').style.display = 'none';
+        }
+
+        let visits = localStorage.getItem('visitCount') || 0;
+        visits++;
+        localStorage.setItem('visitCount', visits);
+        document.getElementById('visitorMsg').innerText = `أنت العميل رقم: ${visits}`;
+
+        function toggleModal(id) { document.getElementById(id).style.display = 'none'; }
+        function showView(viewId) {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerView').style.display = 'none';
+            document.getElementById('forgotView').style.display = 'none';
+            document.getElementById(viewId).style.display = 'block';
+        }
+        function togglePass(id) {
+            let x = document.getElementById(id);
+            x.type = (x.type === "password") ? "text" : "password";
+        }
+        function register() {
+            let name = document.getElementById('regName').value;
+            let pass = document.getElementById('regPass').value;
+            if(name && pass) {
+                localStorage.setItem('user_' + name, JSON.stringify({pass}));
+                alert("تم التسجيل!"); showView('loginForm');
+            }
+        }
+        function login() {
+            let name = document.getElementById('loginUser').value;
+            let pass = document.getElementById('loginPass').value;
+            let saved = JSON.parse(localStorage.getItem('user_' + name));
+            if(saved && saved.pass === pass) {
+                alert("أهلاً بك!");
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('userStatusInMenu').innerHTML = `<hr><div style="padding:10px">المستخدم: ${name}</div>`;
+            } else alert("بيانات خاطئة");
+        }
+        function resetPass() { alert("تم طلب الرمز"); }
+
+        function sendMessage() {
+            let name = document.getElementById('msgName').value;
+            let body = document.getElementById('msgBody').value;
+            if(name && body) {
+                let div = document.createElement('div');
+                div.className = 'message-box';
+                div.innerHTML = `<strong>${name}</strong>: <p>${body}</p>`;
+                document.getElementById('messagesDisplay').prepend(div);
+                document.getElementById('msgName').value = ""; document.getElementById('msgBody').value = "";
+            }
+        }
+    </script>
+</body>
+</html>
