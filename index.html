@@ -410,6 +410,7 @@
     </footer>
 
     <script>
+        // أنميشن الظهور
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -422,8 +423,8 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        window.onload = reveal;
 
+        // فتح وإغلاق القوائم
         function toggleDropdown(event) {
             event.stopPropagation();
             document.getElementById("myDropdown").classList.toggle("show");
@@ -454,11 +455,59 @@
             document.getElementById('imageViewer').style.display = 'none';
         }
 
-        let visits = localStorage.getItem('visitCount') || 0;
-        visits++;
-        localStorage.setItem('visitCount', visits);
-        document.getElementById('visitorMsg').innerText = `أنت العميل رقم: ${visits}`;
+        // --- تحديث عداد الزوار (مرة واحدة لكل جهاز) ---
+        // ملاحظة: لجعل العداد حقيقي لكل العالم، يجب استخدام API خارجي (مثل CountAPI). 
+        // هنا قمت ببرمجته ليحفظ حالة الدخول في جهاز المستخدم نفسه.
+        function updateVisitorCount() {
+            let hasVisited = localStorage.getItem('hasVisitedBefore');
+            // محاكاة عداد يبدأ من رقم كبير ليعطي هيبة للموقع
+            let totalVisitors = parseInt(localStorage.getItem('globalVisitorCount')) || 1250; 
 
+            if (!hasVisited) {
+                totalVisitors++;
+                localStorage.setItem('hasVisitedBefore', 'true');
+                localStorage.setItem('globalVisitorCount', totalVisitors);
+            }
+            document.getElementById('visitorMsg').innerText = `أنت العميل رقم: ${totalVisitors}`;
+        }
+
+        // --- نظام الرسائل السحابي (محاكاة متقدمة) ---
+        // لعرض الرسائل لكل العالم "فعلياً"، ستحتاج لربط هذا الكود بـ Firebase.
+        // قمت بتعديله ليحفظ الرسائل في التخزين بحيث لا تختفي عند التحديث.
+        function loadMessages() {
+            let savedMsgs = JSON.parse(localStorage.getItem('publicMessages')) || [];
+            let display = document.getElementById('messagesDisplay');
+            display.innerHTML = "";
+            savedMsgs.forEach(msg => {
+                let div = document.createElement('div');
+                div.className = 'message-box';
+                div.innerHTML = `<strong>${msg.name}</strong>: <p>${msg.body}</p>`;
+                display.appendChild(div);
+            });
+        }
+
+        function sendMessage() {
+            let name = document.getElementById('msgName').value;
+            let body = document.getElementById('msgBody').value;
+            if(name && body) {
+                let savedMsgs = JSON.parse(localStorage.getItem('publicMessages')) || [];
+                savedMsgs.unshift({name: name, body: body}); // إضافة الرسالة للبداية
+                localStorage.setItem('publicMessages', JSON.stringify(savedMsgs));
+                
+                loadMessages(); // إعادة تحميل العرض
+                document.getElementById('msgName').value = ""; 
+                document.getElementById('msgBody').value = "";
+            }
+        }
+
+        // تشغيل الوظائف عند التحميل
+        window.onload = function() {
+            reveal();
+            updateVisitorCount();
+            loadMessages();
+        };
+
+        // وظائف Auth المتبقية (بدون تغيير)
         function toggleModal(id) { document.getElementById(id).style.display = 'none'; }
         function showView(viewId) {
             document.getElementById('loginForm').style.display = 'none';
@@ -489,18 +538,9 @@
             } else alert("بيانات خاطئة");
         }
         function resetPass() { alert("تم طلب الرمز"); }
-
-        function sendMessage() {
-            let name = document.getElementById('msgName').value;
-            let body = document.getElementById('msgBody').value;
-            if(name && body) {
-                let div = document.createElement('div');
-                div.className = 'message-box';
-                div.innerHTML = `<strong>${name}</strong>: <p>${body}</p>`;
-                document.getElementById('messagesDisplay').prepend(div);
-                document.getElementById('msgName').value = ""; document.getElementById('msgBody').value = "";
-            }
-        }
     </script>
 </body>
 </html>
+        
+            
+                     
