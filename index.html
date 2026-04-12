@@ -3,544 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hassan Mustafa | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+    <title>HS PROS | International Tech Legacy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS التنسيق الأصلي --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #f4f7f6;
-            color: #333;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        :root {
+            --gold: #c5a059;
+            --glass: rgba(10, 10, 10, 0.9);
+            --radius: 25px;
+            --transition: cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .container { width: 90%; margin: auto; padding: 20px 0; }
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Times New Roman', serif; }
+        body { background-color: #000; color: #fff; line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
+
+        .fixed-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80') center/cover;
+            z-index: -2;
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
         header {
-            background: #2c3e50;
-            color: white;
-            padding: 10px 5%;
-            display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            transition: 0.3s;
         }
-        .header-right { order: 1; position: relative; }
-        .menu-btn { 
-            background: rgba(255, 255, 255, 0.1); 
-            color: white; 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            width: 45px; 
-            height: 45px; 
-            border-radius: 50%; 
+        header.scrolled { background: rgba(0,0,0,0.95); padding: 15px 50px; border-bottom: 1px solid var(--gold); }
+        .logo { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 3px; cursor: pointer; }
+
+        /* --- أنيميشن المنيو الجذاب --- */
+        .menu-trigger {
             cursor: pointer; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: 0.3s;
-        }
-        .menu-btn:hover { background: #e67e22; transform: scale(1.1); }
-        .header-left { order: 2; display: flex; align-items: center; gap: 15px; }
-        .profile-img { 
-            border-radius: 50%; width: 45px; height: 45px; border: 2px solid #fff; 
-            object-fit: cover; cursor: pointer; transition: 0.4s;
-        }
-        .profile-img:hover { transform: rotate(10deg) scale(1.1); }
-        .logo-text { font-weight: bold; font-size: 1.2rem; letter-spacing: 1px; }
-        .dropdown-content {
-            display: none; 
-            position: absolute; 
-            background: white; 
-            min-width: 200px; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
-            right: 0; 
-            top: 55px;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1001;
-        }
-        .dropdown-content.show { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .dropdown-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; text-align: right; transition: 0.2s; }
-        .dropdown-content a i { margin-left: 10px; width: 20px; color: #e67e22; }
-        .dropdown-content a:hover { background-color: #f8f9fa; color: #e67e22; padding-right: 25px; }
-        
-        .scrolling-gallery {
-            background: #fff;
-            padding: 40px 0;
-            overflow: hidden;
-            white-space: nowrap;
+            font-size: 26px; 
+            color: var(--gold);
             position: relative;
-            border-bottom: 2px solid #eee;
-        }
-        .gallery-track {
-            display: inline-flex;
-            animation: scrollGallery 25s linear infinite;
-        }
-        .gallery-item {
-            width: 300px;
-            height: 200px;
-            margin: 0 15px;
-            cursor: pointer;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            object-fit: cover;
-        }
-        .gallery-item:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        @keyframes scrollGallery {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(330px * 4)); }
-        }
-
-        .image-viewer-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 3000;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            backdrop-filter: blur(8px);
-            animation: fadeInOverlay 0.4s ease;
-        }
-        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-        .image-viewer-overlay img {
-            max-width: 85%;
-            max-height: 70%;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.15);
-            transform: scale(0.8);
-            animation: zoomImg 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes zoomImg { to { transform: scale(1); } }
-        .hello-txt {
-            color: white;
-            font-size: 3rem;
-            margin: 15px 0;
-            font-family: 'Brush Script MT', cursive, sans-serif;
-            font-weight: 100;
-            border-right: 3px solid #e67e22;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-        }
-        .animate-text {
-            animation: typing 1.5s steps(6) forwards, blink 0.7s infinite;
-        }
-        @keyframes typing { from { width: 0; } to { width: 150px; } }
-        @keyframes blink { 50% { border-color: transparent; } }
-        .back-btn {
-            margin-top: 20px;
-            background: #e67e22;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
-        }
-        .back-btn:hover { background: #d35400; transform: translateY(-2px); }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 2000; display: flex; justify-content: center; align-items: center;
-        }
-        .modal { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; position: relative; text-align: center; }
-        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 28px; cursor: pointer; color: #999; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: #e67e22; outline: none; }
-        .pass-container { position: relative; width: 100%; }
-        .pass-container i { position: absolute; left: 15px; top: 25px; cursor: pointer; color: #777; }
-        button { cursor: pointer; transition: 0.3s; font-family: inherit; }
-        .auth-btn { background: #2c3e50; color: white; border: none; width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; }
-        .auth-btn:hover { background: #34495e; }
-
-        .about-section { background: #fff; text-align: center; padding: 60px 0; border-bottom: 4px solid #e67e22; }
-        .visitor-count { background: #e67e22; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 15px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        .collaborator-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin: 20px auto;
-            max-width: 500px;
-            border-right: 6px solid #e67e22;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .collaborator-card:hover { transform: scale(1.02); }
-        .collab-img {
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 3px solid #e67e22;
-            object-fit: cover;
         }
-        .collab-info { text-align: right; flex-grow: 1; }
-        .collab-info h3 { margin: 0; color: #2c3e50; font-size: 1.4rem; }
-        .collab-info p { margin: 5px 0; color: #777; font-size: 0.9rem; line-height: 1.4; }
-        .collab-socials { display: flex; gap: 15px; margin-top: 10px; }
-        .collab-socials a { font-size: 1.2rem; transition: 0.3s; }
-        .fa-tiktok { color: #000; }
-        .fa-whatsapp { color: #25d366; }
-        .fa-facebook { color: #1877f2; }
-        .fa-instagram { color: #e4405f; }
-        .collab-socials a:hover { transform: translateY(-3px); opacity: 0.8; }
+        /* تأثير النبض الخارجي */
+        .menu-trigger::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: menu-pulse 2s infinite;
+            opacity: 0;
+        }
+        @keyframes menu-pulse {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        /* حركة الأيقونة نفسها */
+        .menu-trigger i {
+            animation: menu-bounce 3s infinite ease-in-out;
+        }
+        @keyframes menu-bounce {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--gold)); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 8px var(--gold)); }
+        }
+        /* --------------------------- */
 
-        .collab-link-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8f9fa;
-            padding: 12px 20px;
-            margin: 10px 0;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #333;
-            border: 1px solid #eee;
-            transition: 0.3s;
+        .side-menu {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+            z-index: 2000; padding: 50px 30px; transition: 0.5s; border-right: 1px solid var(--gold);
         }
-        .collab-link-box:hover {
-            background: #e67e22;
-            color: white;
-            transform: translateX(-5px);
-        }
-        .collab-link-box i { font-size: 1.3rem; }
+        .side-menu.active { left: 0; }
+        .close-menu { font-size: 25px; cursor: pointer; color: var(--gold); margin-bottom: 40px; }
+        .side-menu ul { list-style: none; }
+        .side-menu ul li { margin: 25px 0; }
+        .side-menu ul li a { color: #fff; text-decoration: none; font-size: 18px; transition: 0.3s; }
+        .side-menu ul li a:hover { color: var(--gold); padding-right: 10px; }
 
-        .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
-        .lang-card { background: #2c3e50; color: white; padding: 25px; border-radius: 12px; text-align: right; line-height: 1.7; transition: 0.4s; }
-        .lang-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); background: #34495e; }
-        .lang-card h3 { color: #e67e22; margin-top: 0; border-bottom: 1px solid #3e4f5f; padding-bottom: 10px; }
-        .contact-section { background: #ecf0f1; padding: 50px 0; text-align: center; }
-        #msgBody { height: 120px; resize: none; }
-        .send-btn { background: #27ae60; color: white; border: none; padding: 12px 50px; border-radius: 6px; transition: 0.3s; }
-        .send-btn:hover { background: #2ecc71; transform: scale(1.05); }
-        .message-box { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 5px solid #27ae60; text-align: right; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
-        footer { background: #222; color: #bbb; text-align: center; padding: 40px; margin-top: 50px; }
-        footer p { margin-top: 20px; font-size: 0.95rem; color: #fff; }
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; background: transparent; position: relative;
+        }
+        .hero-content, .scroll-down-wrapper { transition: opacity 0.5s ease, transform 0.5s ease; }
+        .fade-out { opacity: 0 !important; transform: translateY(-20px); pointer-events: none; }
+
+        .main-title { font-size: clamp(40px, 10vw, 100px); font-weight: 900; letter-spacing: 15px; margin-bottom: 15px; }
+        .hero p { font-size: 18px; letter-spacing: 5px; color: var(--gold); }
+
+        .scroll-down-wrapper {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            cursor: pointer; z-index: 10;
+        }
+        .mouse-icon {
+            width: 26px; height: 42px; border: 2px solid var(--gold); border-radius: 20px;
+            display: flex; justify-content: center; padding-top: 8px;
+        }
+        .wheel {
+            width: 4px; height: 8px; background: var(--gold); border-radius: 2px;
+            animation: scroll-wheel 1.6s infinite ease-in-out;
+        }
+        @keyframes scroll-wheel {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(15px); opacity: 0; }
+        }
+        .scroll-down-text { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #fff; animation: fade-text 1.6s infinite alternate; }
+        @keyframes fade-text { from { opacity: 0.4; } to { opacity: 1; } }
+
+        .dev-section { padding: 80px 20px; text-align: center; }
+        .images-joint { display: flex; justify-content: center; margin-bottom: -40px; position: relative; z-index: 10; }
+        .dev-img { width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--gold); object-fit: cover; background: #000; margin: 0 -25px; transition: 0.5s ease; }
+        .dev-img:hover { transform: translateY(-10px) scale(1.05); z-index: 15; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4); }
+        .joint-card { background: var(--glass); padding: 70px 40px 40px; border-radius: var(--radius); border: 1px solid var(--gold); text-align: center; max-width: 850px; margin: 0 auto; }
+
+        .tech-box { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+        .tech-card { background: var(--glass); margin-bottom: 25px; padding: 30px; border-radius: 20px; display: flex; align-items: center; gap: 20px; border-right: 5px solid var(--gold); transition: 0.4s ease; cursor: default; direction: ltr; }
+        .tech-card:hover { transform: translateX(10px) scale(1.02); background: rgba(0,0,0,0.9); }
+        .tech-card img { width: 60px; height: 60px; }
+        .tech-text { text-align: left; flex: 1; }
+        .tech-text h4 { color: var(--gold); font-size: 22px; margin-bottom: 8px; }
+        .tech-text p { color: #ccc; line-height: 1.6; font-size: 14px; }
+
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px; }
+        .work-card { background: var(--glass); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.5s ease; cursor: pointer; }
+        .work-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .work-card img { width: 100%; transition: 0.5s; opacity: 0.8; }
+        .work-card:hover img { opacity: 1; transform: scale(1.05); }
+        .work-desc { padding: 20px; text-align: center; }
+        .work-desc h4 { color: #fff; margin-bottom: 5px; }
+        .work-desc p { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+
+        footer { background: rgba(5, 5, 5, 0.98); padding: 70px 20px; border-top: 2px solid var(--gold); }
+        .footer-flex { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .designer-box { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 15px 30px; border-radius: 60px; border: 1px solid rgba(197, 160, 89, 0.3); transition: 0.3s; }
+        .designer-box:hover { background: rgba(197, 160, 89, 0.1); transform: translateY(-5px); }
+        .f-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
+        .d-name { color: var(--gold); font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .f-socials a { color: #fff; margin-right: 15px; font-size: 18px; transition: 0.3s; display: inline-block; }
+        .f-socials a:hover { color: var(--gold); transform: scale(1.3); text-shadow: 0 0 10px var(--gold); }
+
+        #scrollTop { position: fixed; bottom: 30px; right: 30px; background: var(--gold); color: #000; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; }
     </style>
 </head>
 <body>
-    <div id="imageViewer" class="image-viewer-overlay">
-        <h2 id="helloTxt" class="hello-txt">Hello!</h2>
-        <img id="fullImage" src="" alt="Full View">
-        <button class="back-btn" onclick="closeImageViewer()">رجوع</button>
+    <div class="fixed-bg"></div>
+    <div id="scrollTop" onclick="window.scrollTo(0,0)"><i class="fas fa-chevron-up fa-2x"></i></div>
+
+    <div class="side-menu" id="sideMenu">
+        <div class="close-menu" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#tech">Technologies</a></li>
+            <li><a href="#works">Portfolio</a></li>
+        </ul>
     </div>
 
-    <div id="collabOverlay" class="overlay" style="display:none;">
-        <div class="modal" style="max-width: 450px;">
-            <span class="close-btn" onclick="document.getElementById('collabOverlay').style.display='none'">&times;</span>
-            <img src="12.jpg" alt="Salah" style="width:120px; height:120px; border-radius:50%; border:4px solid #e67e22; margin-bottom:15px; object-fit:cover;">
-            <h2 style="margin:0; color:#2c3e50;">Salah Siddiq</h2>
-            <p style="color:#e67e22; font-weight:bold; margin:5px 0;">مبرمج وكاتب أكواد محترف</p>
-            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">خبير في تطوير واجهات المستخدم وبناء الهياكل البرمجية المتقدمة.</p>
-            
-            <div style="text-align:right;">
-                <a href="https://wa.me/249901154713" target="_blank" class="collab-link-box">
-                    <span>واتساب</span> <i class="fab fa-whatsapp" style="color:#25d366;"></i>
-                </a>
-                <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank" class="collab-link-box">
-                    <span>فيسبوك</span> <i class="fab fa-facebook" style="color:#1877f2;"></i>
-                </a>
-                <a href="https://www.tiktok.com/@salahsiddig5?_r=1&_t=ZS-95OCb86rUm4" target="_blank" class="collab-link-box">
-                    <span>تيك توك</span> <i class="fab fa-tiktok" style="color:#000;"></i>
-                </a>
-                <a href="https://www.instagram.com/salah_siddig_?igsh=MTB4YjVpZDg4dzQzdw==" target="_blank" class="collab-link-box">
-                    <span>انستغرام</span> <i class="fab fa-instagram" style="color:#e4405f;"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div id="loginOverlay" class="overlay">
-        <div class="modal">
-            <span class="close-btn" onclick="toggleModal('loginOverlay')">&times;</span>
-            <div id="loginForm">
-                <h2 style="margin-top:0">تسجيل الدخول</h2>
-                <input type="text" id="loginUser" placeholder="الاسم الكامل">
-                <div class="pass-container">
-                    <input type="password" id="loginPass" placeholder="كلمة السر">
-                    <i class="fas fa-eye" onclick="togglePass('loginPass')"></i>
-                </div>
-                <button class="auth-btn" onclick="login()">دخول</button>
-                <p onclick="showView('forgotView')" style="color:#e67e22; cursor:pointer; text-decoration:underline">نسيت كلمة السر؟</p>
-                <p onclick="showView('registerView')" style="color:#e67e22; cursor:pointer; text-decoration:underline">إنشاء حساب جديد</p>
-            </div>
-            <div id="registerView" style="display:none;">
-                <h2 style="margin-top:0">إنشاء حساب جديد</h2>
-                <input type="text" id="regName" placeholder="الاسم الكامل">
-                <input type="text" id="regPhone" placeholder="رقم الهاتف">
-                <div class="pass-container">
-                    <input type="password" id="regPass" placeholder="كلمة السر">
-                    <i class="fas fa-eye" onclick="togglePass('regPass')"></i>
-                </div>
-                <button class="auth-btn" onclick="register()">حفظ البيانات</button>
-                <p onclick="showView('loginForm')" style="color:#e67e22; cursor:pointer; text-decoration:underline">لديك حساب؟ سجل دخول</p>
-            </div>
-            <div id="forgotView" style="display:none;">
-                <h2 style="margin-top:0">استعادة الحساب</h2>
-                <input type="text" id="forgotPhone" placeholder="رقم الهاتف">
-                <button class="auth-btn" onclick="resetPass()">طلب رمز التحقق</button>
-                <p onclick="showView('loginForm')" style="color:#e67e22; cursor:pointer; text-decoration:underline">رجوع</p>
-            </div>
-        </div>
-    </div>
-
-    <header>
-        <div class="header-right">
-            <button class="menu-btn" onclick="toggleDropdown(event)"><i class="fas fa-bars"></i></button>
-            <div id="myDropdown" class="dropdown-content">
-                <a href="https://wa.me/249118944652"><i class="fab fa-whatsapp"></i> واتساب</a>
-                <a href="https://www.facebook.com/share/1DMp1FUkjB/"><i class="fab fa-facebook"></i> فيسبوك</a>
-                <a href="https://www.tiktok.com/@123hassan548"><i class="fab fa-tiktok"></i> تيك توك</a>
-                <a href="https://www.instagram.com/mustafeh026?igsh=dG9udDFhZ2FmbnY4"><i class="fab fa-instagram"></i> انستغرام</a>
-                <a href="https://youtube.com/@hassonnetlifyapp?si=du-H-7bWff2B4yYTw"><i class="fab fa-youtube"></i> يوتيوب</a>
-                <hr style="border:0; border-top:1px solid #eee; margin:5px 0;">
-                <a href="#" onclick="alert('قريباً')"><i class="fas fa-user-friends"></i> تبديل الحسابات</a>
-                <div id="userStatusInMenu"></div>
-            </div>
-        </div>
-        <div class="header-left">
-            <span class="logo-text">HASSAN MUSTAFA</span>
-            <img src="1.png" alt="Hassan" class="profile-img" onclick="openImageViewer(this.src)">
+    <header id="header">
+        <div class="logo">HS PROS</div>
+        <div class="menu-trigger" onclick="toggleMenu()">
+            <i class="fas fa-bars-staggered"></i>
         </div>
     </header>
 
-    <section class="about-section reveal">
-        <div class="container">
-            <div class="visitor-count" id="visitorMsg">جاري حساب الزوار...</div>
-            <h2 style="font-size: 2.5rem; margin: 10px 0;">About Me</h2>
-            <p dir="ltr" style="max-width: 800px; margin: auto; font-size: 1.1rem; color: #555;">
-               I am Hassan Mustafa, a student at the Red Sea University and a professional web designer. 
-               I aspire to be a global programmer managing international websites.
+    <section class="hero" id="hero">
+        <div class="hero-content" id="heroContent">
+            <h1 class="main-title reveal active">The PORTFOLIO</h1>
+            <p class="reveal active">INTERNATIONAL WEB LEGACY</p>
+        </div>
+
+        <div class="scroll-down-wrapper" id="scrollIndicator" onclick="document.getElementById('about').scrollIntoView()">
+            <div class="mouse-icon"><div class="wheel"></div></div>
+            <span class="scroll-down-text">Scroll Down</span>
+        </div>
+    </section>
+
+    <div class="dev-section reveal" id="about">
+        <div class="images-joint">
+            <img src="12.jpg" class="dev-img">
+            <img src="1.png" class="dev-img">
+        </div>
+        <div class="joint-card">
+            <h2 style="color:var(--gold); margin-bottom:15px; font-weight: bold;">Global Web Developers</h2>
+            <p style="font-size: 18px; line-height: 1.8;">
+                نحن مبرمجون نجمع بين الفن والبرمجة لنصنع واقعاً رقمياً مبهراً. خبرتنا تمتد لسنوات في بناء الأنظمة المعقدة والواجهات الفاخرة التي تلبي تطلعات كبار العملاء.
             </p>
-        </div>
-    </section>
-
-    <section class="container reveal">
-        <div class="collaborator-card" onclick="document.getElementById('collabOverlay').style.display='flex'">
-            <img src="12.jpg" alt="Salah" class="collab-img">
-            <div class="collab-info">
-                <h3> Salah Siddiq</h3>
-                <p>Assistant programmer and web designer<br>مبرمج ومصمم مواقع </p>
-                <div class="collab-socials">
-                    <a href="https://www.tiktok.com/@salahsiddig5?_r=1&_t=ZS-95OCb86rUm4" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://wa.me/249901154713" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/salah_siddig_?igsh=MTB4YjVpZDg4dzQzdw==" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="scrolling-gallery reveal">
-        <h3 style="text-align: center; margin-bottom: 20px;">معرض أعمالي</h3>
-        <div class="gallery-track">
-            <img src="6.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="7.jpg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="8.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="9.jpg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="2.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="3.jpeg" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="https://via.placeholder.com/600x400?text=Project+3" class="gallery-item" onclick="openImageViewer(this.src)">
-            <img src="https://via.placeholder.com/600x400?text=Project+4" class="gallery-item" onclick="openImageViewer(this.src)">
         </div>
     </div>
 
-    <section class="container reveal">
-        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">لغات البرمجة وشرح مهامها</h2>
-        <div class="lang-grid">
-            <div class="lang-card">
-                <h3>HTML & CSS</h3>
-                <p>It is the standard language used to create the structure of web pages. It acts like the skeleton of a website, defining elements such as headings, paragraphs, and links.</p>
-            </div>
-            <div class="lang-card">
-                <h3>JavaScript (JS)</h3>
-                <p>It is a scripting language used to add interactivity to web pages. It allows you to create dynamic content like image sliders, pop-up windows, and real-time updates without refreshing the page.</p>
-            </div>
-            <div class="lang-card">
-                <h3>Python</h3>
-                <p>It is a high-level, easy-to-read programming language known for its simplicity. It is widely used in web development (backend), data science, artificial intelligence, and automation.</p>
-            </div>
-            <div class="lang-card">
-                <h3>C++</h3>
-                <p>It is a powerful, high-performance language that provides great control over system resources. It is commonly used for developing operating systems, game engines, and high-performance applications.</p>
-            </div>
+    <div class="tech-box" id="tech">
+        <h2 style="text-align:center; color:var(--gold); margin-bottom:50px;" class="reveal">技術と言語 | TECHNOLOGIES</h2>
+        
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png">
+            <div class="tech-text"><h4>HTML5 & CSS3 Architecture</h4><p>Strategic semantic structures for SEO power and sophisticated layouts with luxurious responsiveness across all global standards.</p></div>
         </div>
-    </section>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png">
+            <div class="tech-text"><h4>JavaScript & Logic</h4><p>Implementing logic-driven motion and complex interactions for cutting-edge dynamic experiences without sacrificing performance.</p></div>
+        </div>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png">
+            <div class="tech-text"><h4>Python Backend</h4><p>Powering secure, efficient, and complex data server-side applications with scalable and robust algorithm architectures.</p></div>
+        </div>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png">
+            <div class="tech-text"><h4>PHP Systems</h4><p>Creating high-performance enterprise applications with seamless database interactions for robust web ecosystem functionality.</p></div>
+        </div>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968280.png">
+            <div class="tech-text"><h4>Java Development</h4><p>Building scalable, maintainable, and platform-independent enterprise-level software solutions and dynamic applications.</p></div>
+        </div>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968341.png">
+            <div class="tech-text"><h4>Ruby on Rails</h4><p>Forging elegant and robust web applications rapidly using standard conventions for powerful and simple framework ecosystems.</p></div>
+        </div>
+        <div class="tech-card reveal">
+            <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png">
+            <div class="tech-text"><h4>C++ Systems</h4><p>Engineered for speed, efficiency, and low-level system control in developing high-performance software applications.</p></div>
+        </div>
+    </div>
 
-    <section class="contact-section reveal">
-        <div class="container">
-            <h2>تواصل معي - أرسل رسالة</h2>
-            <div style="max-width: 600px; margin: auto;">
-                <input type="text" id="msgName" placeholder="اكتب اسمك">
-                <textarea id="msgBody" placeholder="اكتب رسالتك هنا..."></textarea>
-                <button class="send-btn" onclick="sendMessage()">إرسال الآن</button>
-            </div>
-            <div id="messagesDisplay"></div>
+    <h2 style="text-align:center; color:var(--gold); margin-top:50px;" class="reveal" id="works">تصميماتي | PORTFOLIO</h2>
+    <div class="portfolio-grid reveal">
+        <div class="work-card">
+            <img src="6.webp"><div class="work-desc"><h4>متجر ملكي فاخر</h4><p>E-Commerce / Web Design</p></div>
         </div>
-    </section>
+        <div class="work-card">
+            <img src="5.webp"><div class="work-desc"><h4>منصة تعليمية عالمية</h4><p>E-Learning / Systems</p></div>
+        </div>
+        <div class="work-card">
+            <img src="7.webp"><div class="work-desc"><h4>موقع شركة استثمارية</h4><p>Corporate / SEO</p></div>
+        </div>
+        <div class="work-card">
+            <img src="4.webp"><div class="work-desc"><h4>تطبيق محادثة ذكي</h4><p>Logic / UI-UX</p></div>
+        </div>
+        <div class="work-card">
+            <img src="1.webp"><div class="work-desc"><h4>بوابة حكومية رقمية</h4><p>Backend / Security</p></div>
+        </div>
+        <div class="work-card">
+            <img src="3.jpg"><div class="work-desc"><h4>نظام إدارة مطاعم</h4><p>Enterprise / Fullstack</p></div>
+        </div>
+    </div>
 
     <footer>
-        <p>تم الانشاء بواسطه المبرمج حسن مصطفى في يوم 9/5/2026</p>
+        <div class="footer-flex">
+            <div class="designer-box reveal">
+                <img src="1.png" class="f-img">
+                <div>
+                    <div class="d-name">حسن مصطفى</div>
+                    <div class="f-socials">
+                        <a href="https://www.tiktok.com/@123hassan548" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.facebook.com/share/1DMp1FUkjB/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/249118944652" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/mustafeh026" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="designer-box reveal">
+                <img src="12.jpg" class="f-img">
+                <div>
+                    <div class="d-name">صلاح الدين</div>
+                    <div class="f-socials">
+                        <a href="https://www.tiktok.com/@salahsiddig5" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/249901154713" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/salah_siddig_" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:50px; font-size:12px; color:#555; letter-spacing:2px;">&copy; 2026 HS PROS | THE TECH REGACY | DESIGNED BY TAHA</p>
     </footer>
 
     <script>
-        // أنميشن الظهور
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); }
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
             }
         }
-        window.addEventListener("scroll", reveal);
-
-        // فتح وإغلاق القوائم
-        function toggleDropdown(event) {
-            event.stopPropagation();
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('overlay')) {
-                event.target.style.display = 'none';
-            }
-            if (!event.target.matches('.menu-btn') && !event.target.matches('.fa-bars')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
-                }
-            }
-        }
-
-        function openImageViewer(src) {
-            document.getElementById('fullImage').src = src;
-            document.getElementById('imageViewer').style.display = 'flex';
-            const hello = document.getElementById('helloTxt');
-            hello.classList.remove('animate-text');
-            void hello.offsetWidth; 
-            hello.classList.add('animate-text');
-        }
-
-        function closeImageViewer() {
-            document.getElementById('imageViewer').style.display = 'none';
-        }
-
-        // --- تحديث عداد الزوار (مرة واحدة لكل جهاز) ---
-        // ملاحظة: لجعل العداد حقيقي لكل العالم، يجب استخدام API خارجي (مثل CountAPI). 
-        // هنا قمت ببرمجته ليحفظ حالة الدخول في جهاز المستخدم نفسه.
-        function updateVisitorCount() {
-            let hasVisited = localStorage.getItem('hasVisitedBefore');
-            // محاكاة عداد يبدأ من رقم كبير ليعطي هيبة للموقع
-            let totalVisitors = parseInt(localStorage.getItem('globalVisitorCount')) || 1250; 
-
-            if (!hasVisited) {
-                totalVisitors++;
-                localStorage.setItem('hasVisitedBefore', 'true');
-                localStorage.setItem('globalVisitorCount', totalVisitors);
-            }
-            document.getElementById('visitorMsg').innerText = `أنت العميل رقم: ${totalVisitors}`;
-        }
-
-        // --- نظام الرسائل السحابي (محاكاة متقدمة) ---
-        // لعرض الرسائل لكل العالم "فعلياً"، ستحتاج لربط هذا الكود بـ Firebase.
-        // قمت بتعديله ليحفظ الرسائل في التخزين بحيث لا تختفي عند التحديث.
-        function loadMessages() {
-            let savedMsgs = JSON.parse(localStorage.getItem('publicMessages')) || [];
-            let display = document.getElementById('messagesDisplay');
-            display.innerHTML = "";
-            savedMsgs.forEach(msg => {
-                let div = document.createElement('div');
-                div.className = 'message-box';
-                div.innerHTML = `<strong>${msg.name}</strong>: <p>${msg.body}</p>`;
-                display.appendChild(div);
-            });
-        }
-
-        function sendMessage() {
-            let name = document.getElementById('msgName').value;
-            let body = document.getElementById('msgBody').value;
-            if(name && body) {
-                let savedMsgs = JSON.parse(localStorage.getItem('publicMessages')) || [];
-                savedMsgs.unshift({name: name, body: body}); // إضافة الرسالة للبداية
-                localStorage.setItem('publicMessages', JSON.stringify(savedMsgs));
-                
-                loadMessages(); // إعادة تحميل العرض
-                document.getElementById('msgName').value = ""; 
-                document.getElementById('msgBody').value = "";
-            }
-        }
-
-        // تشغيل الوظائف عند التحميل
-        window.onload = function() {
+        window.addEventListener("scroll", function() {
             reveal();
-            updateVisitorCount();
-            loadMessages();
-        };
+            var header = document.getElementById("header");
+            var btn = document.getElementById("scrollTop");
+            var content = document.getElementById("heroContent");
+            var indicator = document.getElementById("scrollIndicator");
 
-        // وظائف Auth المتبقية (بدون تغيير)
-        function toggleModal(id) { document.getElementById(id).style.display = 'none'; }
-        function showView(viewId) {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerView').style.display = 'none';
-            document.getElementById('forgotView').style.display = 'none';
-            document.getElementById(viewId).style.display = 'block';
-        }
-        function togglePass(id) {
-            let x = document.getElementById(id);
-            x.type = (x.type === "password") ? "text" : "password";
-        }
-        function register() {
-            let name = document.getElementById('regName').value;
-            let pass = document.getElementById('regPass').value;
-            if(name && pass) {
-                localStorage.setItem('user_' + name, JSON.stringify({pass}));
-                alert("تم التسجيل!"); showView('loginForm');
+            if (window.scrollY > 60) {
+                content.classList.add("fade-out");
+                indicator.classList.add("fade-out");
+            } else {
+                content.classList.remove("fade-out");
+                indicator.classList.remove("fade-out");
             }
-        }
-        function login() {
-            let name = document.getElementById('loginUser').value;
-            let pass = document.getElementById('loginPass').value;
-            let saved = JSON.parse(localStorage.getItem('user_' + name));
-            if(saved && saved.pass === pass) {
-                alert("أهلاً بك!");
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('userStatusInMenu').innerHTML = `<hr><div style="padding:10px">المستخدم: ${name}</div>`;
-            } else alert("بيانات خاطئة");
-        }
-        function resetPass() { alert("تم طلب الرمز"); }
+
+            if (window.scrollY > 100) {
+                header.classList.add("scrolled");
+                btn.style.display = "flex";
+            } else {
+                header.classList.remove("scrolled");
+                btn.style.display = "none";
+            }
+        });
+        window.onload = reveal;
     </script>
 </body>
 </html>
-        
-            
-                     
