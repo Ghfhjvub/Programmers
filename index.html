@@ -1,319 +1,726 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HS PROS | International Tech Legacy</title>
+    <title>Hassan Mustafa - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-            --gold: #c5a059;
-            --glass: rgba(10, 10, 10, 0.9);
-            --radius: 25px;
-            --transition: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- المتغيرات الأساسية للأنماط (Themes) --- */
+        :root[data-theme="dark"] {
+            --bg-primary: #0a0b10;
+            --bg-surface: rgba(20, 22, 37, 0.6);
+            --border-color: rgba(0, 242, 254, 0.15);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --neon-blue: #00f2fe;
+            --neon-pink: #9b51e0;
+            --shadow-glow: 0 0 15px rgba(0, 242, 254, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.03);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Times New Roman', serif; }
-        body { background-color: #000; color: #fff; line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
-
-        .fixed-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                        url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80') center/cover;
-            z-index: -2;
+        :root[data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-surface: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(15, 23, 42, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --neon-blue: #0284c7;
+            --neon-pink: #7c3aed;
+            --shadow-glow: 0 0 10px rgba(2, 132, 199, 0.3);
+            --card-bg: rgba(15, 23, 42, 0.02);
         }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s var(--transition); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
+        }
 
+        body {
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- الهيدر وبار التنقل --- */
         header {
-            position: fixed; top: 0; width: 100%; padding: 25px 50px;
-            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-            transition: 0.3s;
+            background: var(--bg-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: ;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
-        header.scrolled { background: rgba(0,0,0,0.95); padding: 15px 50px; border-bottom: 1px solid var(--gold); }
-        .logo { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 3px; cursor: pointer; }
 
-        /* --- أنيميشن المنيو الجذاب --- */
-        .menu-trigger {
-            cursor: pointer; 
-            font-size: 26px; 
-            color: var(--gold);
-            position: relative;
-            transition: 0.3s;
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        /* لوقو النيون الوامض */
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 300;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--neon-blue);
+            text-shadow: var(--shadow-glow);
+            animation: blink 4s infinite;
+            text-decoration: none;
+        }
+
+        @keyframes blink {
+            0%, 70%, 74%, 78%, 100% {
+                opacity: 1;
+                text-shadow: var(--shadow-glow);
+            }
+            72%, 76% {
+                opacity: 0.2;
+                text-shadow: none;
+            }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Cairo', sans-serif;
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            gap: 8px;
         }
-        /* تأثير النبض الخارجي */
-        .menu-trigger::before {
+
+        .nav-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: var(--shadow-glow);
+            border-color: var(--neon-blue);
+        }
+
+        .whatsapp-btn {
+            background: rgba(37, 211, 102, 0.15);
+            border-color: #25D366;
+            color: #25D366;
+        }
+        .whatsapp-btn:hover {
+            background: #25D366;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.5);
+            border-color: #25D366;
+        }
+
+        /* --- قسم البروفايل الشخصي (Hero) --- */
+        .hero {
+            padding: 150px 0 60px 0;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--neon-blue);
+            box-shadow: var(--shadow-glow);
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- الأقسام العامة --- */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
             content: '';
-            position: absolute;
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--neon-pink);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* --- قسم لغات البرمجة --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+
+        .skill-card i {
+            font-size: 3rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+        }
+
+        .skill-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .skill-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        /* --- قسم فريق العمل --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .team-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 2px solid var(--neon-pink);
+        }
+
+        .team-card h3 {
+            margin-bottom: 5px;
+        }
+
+        .team-card .role {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .team-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- قسم معرض الأعمال --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            height: 220px;
+        }
+
+        .portfolio-item img {
             width: 100%;
             height: 100%;
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            animation: menu-pulse 2s infinite;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 11, 16, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
+            transition: opacity 0.3s;
+            padding: 20px;
+            text-align: center;
         }
-        @keyframes menu-pulse {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        /* حركة الأيقونة نفسها */
-        .menu-trigger i {
-            animation: menu-bounce 3s infinite ease-in-out;
-        }
-        @keyframes menu-bounce {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--gold)); }
-            50% { transform: scale(1.2); filter: drop-shadow(0 0 8px var(--gold)); }
-        }
-        /* --------------------------- */
 
-        .side-menu {
-            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
-            z-index: 2000; padding: 50px 30px; transition: 0.5s; border-right: 1px solid var(--gold);
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
         }
-        .side-menu.active { left: 0; }
-        .close-menu { font-size: 25px; cursor: pointer; color: var(--gold); margin-bottom: 40px; }
-        .side-menu ul { list-style: none; }
-        .side-menu ul li { margin: 25px 0; }
-        .side-menu ul li a { color: #fff; text-decoration: none; font-size: 18px; transition: 0.3s; }
-        .side-menu ul li a:hover { color: var(--gold); padding-right: 10px; }
 
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; background: transparent; position: relative;
+        /* --- قسم التعليقات ديناميكي --- */
+        .comment-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 15px;
         }
-        .hero-content, .scroll-down-wrapper { transition: opacity 0.5s ease, transform 0.5s ease; }
-        .fade-out { opacity: 0 !important; transform: translateY(-20px); pointer-events: none; }
 
-        .main-title { font-size: clamp(40px, 10vw, 100px); font-weight: 900; letter-spacing: 15px; margin-bottom: 15px; }
-        .hero p { font-size: 18px; letter-spacing: 5px; color: var(--gold); }
-
-        .scroll-down-wrapper {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            cursor: pointer; z-index: 10;
+        .comment-form textarea, .comment-form input {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: inherit;
         }
-        .mouse-icon {
-            width: 26px; height: 42px; border: 2px solid var(--gold); border-radius: 20px;
-            display: flex; justify-content: center; padding-top: 8px;
+
+        .comments-display {
+            margin-top: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
-        .wheel {
-            width: 4px; height: 8px; background: var(--gold); border-radius: 2px;
-            animation: scroll-wheel 1.6s infinite ease-in-out;
+
+        .single-comment {
+            background: rgba(255,255,255,0.02);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--neon-blue);
         }
-        @keyframes scroll-wheel {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(15px); opacity: 0; }
+
+        .single-comment h4 {
+            font-size: 0.95rem;
+            color: var(--neon-blue);
+            margin-bottom: 5px;
         }
-        .scroll-down-text { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #fff; animation: fade-text 1.6s infinite alternate; }
-        @keyframes fade-text { from { opacity: 0.4; } to { opacity: 1; } }
 
-        .dev-section { padding: 80px 20px; text-align: center; }
-        .images-joint { display: flex; justify-content: center; margin-bottom: -40px; position: relative; z-index: 10; }
-        .dev-img { width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--gold); object-fit: cover; background: #000; margin: 0 -25px; transition: 0.5s ease; }
-        .dev-img:hover { transform: translateY(-10px) scale(1.05); z-index: 15; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4); }
-        .joint-card { background: var(--glass); padding: 70px 40px 40px; border-radius: var(--radius); border: 1px solid var(--gold); text-align: center; max-width: 850px; margin: 0 auto; }
+        /* --- الفوتر المحترف --- */
+        footer {
+            background: #05060a;
+            color: #fff;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+        }
 
-        .tech-box { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
-        .tech-card { background: var(--glass); margin-bottom: 25px; padding: 30px; border-radius: 20px; display: flex; align-items: center; gap: 20px; border-right: 5px solid var(--gold); transition: 0.4s ease; cursor: default; direction: ltr; }
-        .tech-card:hover { transform: translateX(10px) scale(1.02); background: rgba(0,0,0,0.9); }
-        .tech-card img { width: 60px; height: 60px; }
-        .tech-text { text-align: left; flex: 1; }
-        .tech-text h4 { color: var(--gold); font-size: 22px; margin-bottom: 8px; }
-        .tech-text p { color: #ccc; line-height: 1.6; font-size: 14px; }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px; }
-        .work-card { background: var(--glass); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.5s ease; cursor: pointer; }
-        .work-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        .work-card img { width: 100%; transition: 0.5s; opacity: 0.8; }
-        .work-card:hover img { opacity: 1; transform: scale(1.05); }
-        .work-desc { padding: 20px; text-align: center; }
-        .work-desc h4 { color: #fff; margin-bottom: 5px; }
-        .work-desc p { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
 
-        footer { background: rgba(5, 5, 5, 0.98); padding: 70px 20px; border-top: 2px solid var(--gold); }
-        .footer-flex { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-        .designer-box { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 15px 30px; border-radius: 60px; border: 1px solid rgba(197, 160, 89, 0.3); transition: 0.3s; }
-        .designer-box:hover { background: rgba(197, 160, 89, 0.1); transform: translateY(-5px); }
-        .f-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
-        .d-name { color: var(--gold); font-size: 18px; font-weight: bold; margin-bottom: 5px; }
-        .f-socials a { color: #fff; margin-right: 15px; font-size: 18px; transition: 0.3s; display: inline-block; }
-        .f-socials a:hover { color: var(--gold); transform: scale(1.3); text-shadow: 0 0 10px var(--gold); }
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
 
-        #scrollTop { position: fixed; bottom: 30px; right: 30px; background: var(--gold); color: #000; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; }
+        .social-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        /* --- النوافذ المنبثقة (Modals) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--neon-blue);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* --- التوافق مع الاتجاهات (RTL / LTR) --- */
+        html[dir="ltr"] .nav-container {
+            flex-direction: row-reverse;
+        }
+        html[dir="ltr"] .nav-menu {
+            flex-direction: row-reverse;
+        }
+        html[dir="ltr"] .single-comment {
+            border-right: none;
+            border-left: 4px solid var(--neon-blue);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="fixed-bg"></div>
-    <div id="scrollTop" onclick="window.scrollTo(0,0)"><i class="fas fa-chevron-up fa-2x"></i></div>
 
-    <div class="side-menu" id="sideMenu">
-        <div class="close-menu" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
-        <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#tech">Technologies</a></li>
-            <li><a href="#works">Portfolio</a></li>
-        </ul>
-    </div>
-
-    <header id="header">
-        <div class="logo">HS PROS</div>
-        <div class="menu-trigger" onclick="toggleMenu()">
-            <i class="fas fa-bars-staggered"></i>
+    <header>
+        <div class="container nav-container">
+            <div class="nav-actions">
+                <ul class="nav-menu">
+                    <li><button class="nav-btn whatsapp-btn" onclick="openWhatsApp()"><i class="fab fa-whatsapp"></i> <span data-i18n="nav-support">خدمة العملاء</span></button></li>
+                    <li><button class="nav-btn" onclick="toggleModal('loginModal')"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav-login">تسجيل دخول</span></button></li>
+                    <li><button class="nav-btn" onclick="toggleModal('registerModal')"><i class="fas fa-user-plus"></i> <span data-i18n="nav-register">إنشاء حساب جديد</span></button></li>
+                    <li><button class="nav-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i> <span data-i18n="nav-theme">الوضع الداكن</span></button></li>
+                    <li><button class="nav-btn" onclick="toggleLanguage()"><i class="fas fa-globe"></i> <span data-i18n="nav-lang">EN</span></button></li>
+                </ul>
+            </div>
+            <a href="#" class="logo">HASSAN MUSTAFA</a>
         </div>
     </header>
 
-    <section class="hero" id="hero">
-        <div class="hero-content" id="heroContent">
-            <h1 class="main-title reveal active">The PORTFOLIO</h1>
-            <p class="reveal active">INTERNATIONAL WEB LEGACY</p>
-        </div>
-
-        <div class="scroll-down-wrapper" id="scrollIndicator" onclick="document.getElementById('about').scrollIntoView()">
-            <div class="mouse-icon"><div class="wheel"></div></div>
-            <span class="scroll-down-text">Scroll Down</span>
+    <section class="hero">
+        <div class="container">
+            <img src="1.png" alt="Hassan Mustafa" class="profile-img" id="profileImage">
+            <h1 data-i18n="hero-name">حسن مصطفى</h1>
+            <p data-i18n="hero-title">مبرمج مواقع إلكترونية ومهندس تقنية معلومات</p>
+            <p style="margin-top: 15px; font-size: 1rem;" data-i18n="hero-desc">لدي خبرة عميقة في بناء وتطوير المنصات الرقمية المتكاملة، أمتلك العديد من لغات وتقنيات البرمجة الحديثة التي تمكنني من تحويل الأفكار المعقدة إلى واجهات تفاعلية سلسة وأنظمة قوية.</p>
         </div>
     </section>
 
-    <div class="dev-section reveal" id="about">
-        <div class="images-joint">
-            <img src="12.jpg" class="dev-img">
-            <img src="1.png" class="dev-img">
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title" data-i18n="skills-title">لغات البرمجة والتقنيات</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-html5" style="color: #e34c26;"></i>
+                    <h3>HTML5</h3>
+                    <p data-i18n="desc-html">هي حجر الأساس ولغة الهيكلة القياسية لكل مواقع الإنترنت. تمنح الموقع البنية التنظيمية الأساسية عبر توزيع العناصر مثل النصوص، الصور، النوافذ والقوائم، مما يسمح لمحركات البحث بفهم محتوى الصفحات وتصنيفها بشكل دقيق ومهني.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt" style="color: #264de4;"></i>
+                    <h3>CSS3</h3>
+                    <p data-i18n="desc-css">لغة التصميم والتنسيق المسؤولية عن المظهر البصري الكامل للموقع. تُستخدم لتحديد الألوان، الخطوط، الخلفيات، والتخطيطات المعقدة. تتيح إضافة تأثيرات الحركة المتطورة، التجاوب الكامل مع الهواتف الذكية، وتطبيق واجهات النيون الزجاجية الاحترافية.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-js" style="color: #f7df1e;"></i>
+                    <h3>JavaScript</h3>
+                    <p data-i18n="desc-js">عصب التفاعلية والحيوية في المواقع الحديثة. تُستخدم لبرمجة العمليات والمنطق البرمجي داخل المتصفح، مثل النوافذ المنبثقة، وتغيير الأنماط والألوان حياً بدون إعادة تحميل الصفحة، ومعالجة البيانات وإرسالها واستقبالها ديناميكياً من الخوادم.</p>
+                </div>
+                <div class="skill-card">
+                    <img src="https://raw.githubusercontent.com/isocpp/logos/master/cpp_logo.svg" style="width: 48px; height: 48px; margin-bottom: 20px;" alt="C++">
+                    <h3>C++</h3>
+                    <p data-i18n="desc-cpp">من أقوى اللغات البرمجية الهيكلية عالية الأداء. تُستخدم في تطوير الأنظمة المعقدة، محركات الألعاب، وتطبيقات سطح المكتب المتطورة. تمنح المبرمج تحكماً كاملاً في الذاكرة وموارد الجهاز، وهي ركيزة أساسية لفهم هندسة البرمجيات والمنطق البرمجي الصلب.</p>
+                </div>
+            </div>
         </div>
-        <div class="joint-card">
-            <h2 style="color:var(--gold); margin-bottom:15px; font-weight: bold;">Global Web Developers</h2>
-            <p style="font-size: 18px; line-height: 1.8;">
-                نحن مبرمجون نجمع بين الفن والبرمجة لنصنع واقعاً رقمياً مبهراً. خبرتنا تمتد لسنوات في بناء الأنظمة المعقدة والواجهات الفاخرة التي تلبي تطلعات كبار العملاء.
-            </p>
-        </div>
-    </div>
+    </section>
 
-    <div class="tech-box" id="tech">
-        <h2 style="text-align:center; color:var(--gold); margin-bottom:50px;" class="reveal">技術と言語 | TECHNOLOGIES</h2>
-        
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png">
-            <div class="tech-text"><h4>HTML5 & CSS3 Architecture</h4><p>Strategic semantic structures for SEO power and sophisticated layouts with luxurious responsiveness across all global standards.</p></div>
+    <section id="team">
+        <div class="container">
+            <h2 class="section-title" data-i18n="team-title">شركاء النجاح وفريق العمل</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="فاطمة علي" class="team-img">
+                    <h3>فاطمة علي</h3>
+                    <div class="role" data-i18n="role-designer">مصممة واجهات UI/UX</div>
+                    <p data-i18n="desc-member1">تمتلك خبرة واسعة في تصميم رحلة المستخدم وبناء الواجهات السلكية (Wireframes) باستخدام Figma، تتقن لغات HTML و CSS لضمان توافق التصاميم مع التطوير.</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="أحمد عمر" class="team-img">
+                    <h3>أحمد عمر</h3>
+                    <div class="role" data-i18n="role-backend">مطور خوادم وقواعد بيانات</div>
+                    <p data-i18n="desc-member2">متخصص في بناء البنية التحتية والـ APIs السريعة والمؤمنة. يمتلك مهارات احترافية في التعامل مع لغات C++ و Python و قواعد البيانات لإدارة الأنظمة الكبيرة.</p>
+                </div>
+            </div>
         </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png">
-            <div class="tech-text"><h4>JavaScript & Logic</h4><p>Implementing logic-driven motion and complex interactions for cutting-edge dynamic experiences without sacrificing performance.</p></div>
-        </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png">
-            <div class="tech-text"><h4>Python Backend</h4><p>Powering secure, efficient, and complex data server-side applications with scalable and robust algorithm architectures.</p></div>
-        </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png">
-            <div class="tech-text"><h4>PHP Systems</h4><p>Creating high-performance enterprise applications with seamless database interactions for robust web ecosystem functionality.</p></div>
-        </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968280.png">
-            <div class="tech-text"><h4>Java Development</h4><p>Building scalable, maintainable, and platform-independent enterprise-level software solutions and dynamic applications.</p></div>
-        </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968341.png">
-            <div class="tech-text"><h4>Ruby on Rails</h4><p>Forging elegant and robust web applications rapidly using standard conventions for powerful and simple framework ecosystems.</p></div>
-        </div>
-        <div class="tech-card reveal">
-            <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png">
-            <div class="tech-text"><h4>C++ Systems</h4><p>Engineered for speed, efficiency, and low-level system control in developing high-performance software applications.</p></div>
-        </div>
-    </div>
+    </section>
 
-    <h2 style="text-align:center; color:var(--gold); margin-top:50px;" class="reveal" id="works">تصميماتي | PORTFOLIO</h2>
-    <div class="portfolio-grid reveal">
-        <div class="work-card">
-            <img src="6.webp"><div class="work-desc"><h4>متجر ملكي فاخر</h4><p>E-Commerce / Web Design</p></div>
+    <section id="portfolio">
+        <div class="container">
+            <h2 class="section-title" data-i18n="portfolio-title">مواقع إلكترونية ملهمة</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80" alt="موقع تجارة">
+                    <div class="portfolio-overlay">
+                        <h3 style="color:var(--neon-blue)">E-Commerce Platform</h3>
+                        <p style="color:#fff; font-size: 0.85rem; margin-top:5px;">واجهة متجر إلكتروني ذكي عالي الأداء ومتكامل تماماً.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=500&q=80" alt="موقع لوحة تحكم">
+                    <div class="portfolio-overlay">
+                        <h3 style="color:var(--neon-blue)">Admin Dashboard</h3>
+                        <p style="color:#fff; font-size: 0.85rem; margin-top:5px;">لوحة تحكم احترافية لمراقبة البيانات وإدارتها حياً.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80" alt="موقع بيانات">
+                    <div class="portfolio-overlay">
+                        <h3 style="color:var(--neon-blue)">Cyberpunk Portfolio</h3>
+                        <p style="color:#fff; font-size: 0.85rem; margin-top:5px;">تصميم مستقبلي باستخدام ألوان النيون والتأثيرات الزجاجية الحركية.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="work-card">
-            <img src="5.webp"><div class="work-desc"><h4>منصة تعليمية عالمية</h4><p>E-Learning / Systems</p></div>
+    </section>
+
+    <section id="comments">
+        <div class="container">
+            <h2 class="section-title" data-i18n="comments-title">آراء وتعليقات الزوار</h2>
+            <div class="comment-box">
+                <form class="comment-form" id="commentForm" onsubmit="addComment(event)">
+                    <input type="text" id="commenterName" placeholder="اسمك الكريم" required data-i18n-holder="holder-name">
+                    <textarea id="commentText" rows="4" placeholder="اكتب تعليقك هنا ليراه الجميع..." required data-i18n-holder="holder-text"></textarea>
+                    <button type="submit" class="nav-btn" style="width: 100%; justify-content: center;" data-i18n="btn-comment">إرسال التعليق</button>
+                </form>
+                <div class="comments-display" id="commentsDisplay">
+                    <div class="single-comment">
+                        <h4>محمد زين العابدين</h4>
+                        <p style="font-size:0.9rem; color:var(--text-muted)">تصميم الموقع المستقبلي والنيون رائع جداً، وتنسيق الأكواد يوحي بخبرة برمجية عالية. بالتوفيق يا حسن!</p>
+                    </div>
+                    <div class="single-comment">
+                        <h4>سارة المهدي</h4>
+                        <p style="font-size:0.9rem; color:var(--text-muted)">أعجبني جداً سلاسة الانتقال بين اللغات والوضع الليلي الخفيف والداكن. عمل احترافي متميز.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="work-card">
-            <img src="7.webp"><div class="work-desc"><h4>موقع شركة استثمارية</h4><p>Corporate / SEO</p></div>
-        </div>
-        <div class="work-card">
-            <img src="4.webp"><div class="work-desc"><h4>تطبيق محادثة ذكي</h4><p>Logic / UI-UX</p></div>
-        </div>
-        <div class="work-card">
-            <img src="1.webp"><div class="work-desc"><h4>بوابة حكومية رقمية</h4><p>Backend / Security</p></div>
-        </div>
-        <div class="work-card">
-            <img src="3.jpg"><div class="work-desc"><h4>نظام إدارة مطاعم</h4><p>Enterprise / Fullstack</p></div>
-        </div>
-    </div>
+    </section>
 
     <footer>
-        <div class="footer-flex">
-            <div class="designer-box reveal">
-                <img src="1.png" class="f-img">
-                <div>
-                    <div class="d-name">حسن مصطفى</div>
-                    <div class="f-socials">
-                        <a href="https://www.tiktok.com/@123hassan548" target="_blank"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://www.facebook.com/share/1DMp1FUkjB/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://wa.me/249118944652" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://www.instagram.com/mustafeh026" target="_blank"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="designer-box reveal">
-                <img src="12.jpg" class="f-img">
-                <div>
-                    <div class="d-name">صلاح الدين</div>
-                    <div class="f-socials">
-                        <a href="https://www.tiktok.com/@salahsiddig5" target="_blank"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://www.facebook.com/share/17QZWd6okg/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://wa.me/249901154713" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://www.instagram.com/salah_siddig_" target="_blank"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
+        <div class="container footer-content">
+            <p>&copy; 2026 Hassan Mustafa. All Rights Reserved.</p>
+            <div class="social-links">
+                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
-        <p style="text-align:center; margin-top:50px; font-size:12px; color:#555; letter-spacing:2px;">&copy; 2026 HS PROS | THE TECH REGACY | DESIGNED BY TAHA</p>
     </footer>
 
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal('loginModal')">&times;</span>
+            <h3 style="margin-bottom: 20px; text-align: center;" data-i18n="modal-login-title">تسجيل الدخول</h3>
+            <form onsubmit="event.preventDefault(); alert('تم تسجيل الدخول بنجاح! (محاكاة)'); toggleModal('loginModal');">
+                <input type="email" placeholder="البريد الإلكتروني" required style="width:100%; padding:10px; margin-bottom:15px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px;">
+                <input type="password" placeholder="كلمة المرور" required style="width:100%; padding:10px; margin-bottom:20px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px;">
+                <button type="submit" class="nav-btn" style="width:100%; justify-content:center;" data-i18n="modal-login-btn">دخول</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal('registerModal')">&times;</span>
+            <h3 style="margin-bottom: 20px; text-align: center;" data-i18n="modal-reg-title">إنشاء حساب جديد</h3>
+            <form onsubmit="event.preventDefault(); alert('تم إنشاء الحساب بنجاح! (محاكاة)'); toggleModal('registerModal');">
+                <input type="text" placeholder="الاسم الكامل" required style="width:100%; padding:10px; margin-bottom:15px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px;">
+                <input type="email" placeholder="البريد الإلكتروني" required style="width:100%; padding:10px; margin-bottom:15px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px;">
+                <input type="password" placeholder="كلمة المرور" required style="width:100%; padding:10px; margin-bottom:20px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px;">
+                <button type="submit" class="nav-btn" style="width:100%; justify-content:center;" data-i18n="modal-reg-btn">تسجيل</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); }
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
+        // --- 1. إعدادات الترجمة الكاملة (عربي / إنجليزي) ---
+        const translations = {
+            ar: {
+                "nav-support": "خدمة العملاء", "nav-login": "تسجيل دخول", "nav-register": "إنشاء حساب جديد",
+                "nav-theme": "الوضع الداكن", "nav-lang": "EN",
+                "hero-name": "حسن مصطفى", "hero-title": "مبرمج مواقع إلكترونية ومهندس تقنية معلومات",
+                "hero-desc": "لدي خبرة عميقة في بناء وتطوير المنصات الرقمية المتكاملة، أمتلك العديد من لغات وتقنيات البرمجة الحديثة التي تمكنني من تحويل الأفكار المعقدة إلى واجهات تفاعلية سلسة وأنظمة قوية.",
+                "skills-title": "لغات البرمجة والتقنيات",
+                "desc-html": "هي حجر الأساس ولغة الهيكلة القياسية لكل مواقع الإنترنت. تمنح الموقع البنية التنظيمية الأساسية عبر توزيع العناصر مثل النصوص، الصور، النوافذ والقوائم، مما يسمح لمحركات البحث بفهم محتوى الصفحات وتصنيفها بشكل دقيق ومهني.",
+                "desc-css": "لغة التصميم والتنسيق المسؤولية عن المظهر البصري الكامل للموقع. تُستخدم لتحديد الألوان، الخطوط، الخلفيات، والتخطيطات المعقدة. تتيح إضافة تأثيرات الحركة المتطورة، التجاوب الكامل مع الهواتف الذكية، وتطبيق واجهات النيون الزجاجية الاحترافية.",
+                "desc-js": "عصب التفاعلية والحيوية في المواقع الحديثة. تُستخدم لبرمجة العمليات والمنطق البرمجي داخل المتصفح، مثل النوافذ المنبثقة، وتغيير الأنماط والألوان حياً بدون إعادة تحميل الصفحة، ومعالجة البيانات وإرسالها واستقبالها ديناميكياً من الخوادم.",
+                "desc-cpp": "من أقوى اللغات البرمجية الهيكلية عالية الأداء. تُستخدم في تطوير الأنظمة المعقدة، محركات الألعاب، وتطبيقات سطح المكتب المتطورة. تمنح المبرمج تحكماً كاملاً في الذاكرة وموارد الجهاز، وهي ركيزة أساسية لفهم هندسة البرمجيات والمنطق البرمجي الصلب.",
+                "team-title": "شركاء النجاح وفريق العمل", "role-designer": "مصممة واجهات UI/UX",
+                "desc-member1": "تمتلك خبرة واسعة في تصميم رحلة المستخدم وبناء الواجهات السلكية (Wireframes) باستخدام Figma، تتقن لغات HTML و CSS لضمان توافق التصاميم مع التطوير.",
+                "role-backend": "مطور خوادم وقواعد بيانات",
+                "desc-member2": "متخصص في بناء البنية التحتية والـ APIs السريعة والمؤمنة. يمتلك مهارات احترافية في التعامل مع لغات C++ و Python و قواعد البيانات لإدارة الأنظمة الكبيرة.",
+                "portfolio-title": "مواقع إلكترونية ملهمة", "comments-title": "آراء وتعليقات الزوار",
+                "holder-name": "اسمك الكريم", "holder-text": "اكتب تعليقك هنا ليراه الجميع...", "btn-comment": "إرسال التعليق",
+                "modal-login-title": "تسجيل الدخول", "modal-login-btn": "دخول", "modal-reg-title": "إنشاء حساب جديد", "modal-reg-btn": "تسجيل"
+            },
+            en: {
+                "nav-support": "Customer Service", "nav-login": "Login", "nav-register": "Register",
+                "nav-theme": "Dark Mode", "nav-lang": "AR",
+                "hero-name": "Hassan Mustafa", "hero-title": "Web Developer & IT Engineer",
+                "hero-desc": "I have deep experience in building and developing integrated digital platforms. I master multiple modern programming languages and technologies that enable me to transform complex ideas into smooth interactive interfaces and robust systems.",
+                "skills-title": "Programming Languages & Tech",
+                "desc-html": "The foundation and standard markup language for all websites. It provides the core structural layout by distributing elements like text, images, and forms, allowing search engines to index content accurately.",
+                "desc-css": "The styling and design language responsible for the entire visual appearance. Used to define colors, fonts, and layouts, it enables advanced animations, responsiveness, and professional cyberpunk glassmorphism effects.",
+                "desc-js": "The core of interactivity in modern websites. Used to program logic inside the browser, handle popups, switch dynamic themes on the fly, and exchange data seamlessly with servers without reloading.",
+                "desc-cpp": "One of the most powerful, high-performance structured programming languages. Used in complex systems, game engines, and desktop apps, giving developers complete control over memory and system architecture.",
+                "team-title": "Success Partners & Team", "role-designer": "UI/UX Designer",
+                "desc-member1": "Extensive experience in wireframing and user experience mapping using Figma. Highly skilled in HTML & CSS to ensure design-to-development fidelity.",
+                "role-backend": "Backend & Database Developer",
+                "desc-member2": "Specialized in building robust, secure infrastructure and APIs. Possesses high-level skills in C++, Python, and database design for enterprise systems.",
+                "portfolio-title": "Inspiring Web Projects", "comments-title": "Visitor Reviews & Comments",
+                "holder-name": "Your Name", "holder-text": "Write your comment here for everyone to see...", "btn-comment": "Post Comment",
+                "modal-login-title": "Login", "modal-login-btn": "Submit", "modal-reg-title": "Register", "modal-reg-btn": "Submit"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // تحديث نصوص العناصر
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+
+            // تحديث نصوص الـ Placeholders
+            document.querySelectorAll('[data-i18n-holder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-holder');
+                if (translations[currentLang][key]) el.placeholder = translations[currentLang][key];
+            });
+        }
+
+        // --- 2. إدارة الوضع الليلي / الفاتح ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // تحديث نص زر التغيير تلقائياً
+            const themeBtnText = document.querySelector('[data-i18n="nav-theme"]');
+            if (newTheme === 'light') {
+                themeBtnText.textContent = currentLang === 'ar' ? 'الوضع الفاتح' : 'Light Mode';
+            } else {
+                themeBtnText.textContent = currentLang === 'ar' ? 'الوضع الداكن' : 'Dark Mode';
             }
         }
-        window.addEventListener("scroll", function() {
-            reveal();
-            var header = document.getElementById("header");
-            var btn = document.getElementById("scrollTop");
-            var content = document.getElementById("heroContent");
-            var indicator = document.getElementById("scrollIndicator");
 
-            if (window.scrollY > 60) {
-                content.classList.add("fade-out");
-                indicator.classList.add("fade-out");
-            } else {
-                content.classList.remove("fade-out");
-                indicator.classList.remove("fade-out");
-            }
+        // --- 3. تشغيل النوافذ المنبثقة ---
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
 
-            if (window.scrollY > 100) {
-                header.classList.add("scrolled");
-                btn.style.display = "flex";
-            } else {
-                header.classList.remove("scrolled");
-                btn.style.display = "none";
+        // إغلاق النافذة عند الضغط خارجها
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
             }
-        });
-        window.onload = reveal;
+        }
+
+        // --- 4. الربط المباشر بـ واتساب ---
+        function openWhatsApp() {
+            const phoneNumber = "0118944652";
+            const message = encodeURIComponent("مرحباً حسن، قمت بزيارة موقعك الشخصي وأود الاستفسار عن خدماتك البرمجية.");
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+        }
+
+        // --- 5. نظام التعليقات المحلي التفاعلي (يُحفظ في الصفحة ويراه الجميع) ---
+        function addComment(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('commenterName');
+            const textInput = document.getElementById('commentText');
+            const displayArea = document.getElementById('commentsDisplay');
+
+            if (nameInput.value.trim() === "" || textInput.value.trim() === "") return;
+
+            // إنشاء عنصر تعليق جديد هيكلياً
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('single-comment');
+            
+            const h4 = document.createElement('h4');
+            h4.textContent = nameInput.value;
+            
+            const p = document.createElement('p');
+            p.style.fontSize = "0.9rem";
+            p.style.color = "var(--text-muted)";
+            p.textContent = textInput.value;
+
+            commentDiv.appendChild(h4);
+            commentDiv.appendChild(p);
+
+            // إدراج التعليق الجديد في الأعلى ليراه أي زائر يتصفح الصفحة حالياً
+            displayArea.insertBefore(commentDiv, displayArea.firstChild);
+
+            // تصفير الخانات بعد الإرسال
+            nameInput.value = "";
+            textInput.value = "";
+        }
     </script>
 </body>
 </html>
